@@ -1,4 +1,4 @@
-module github.com/fozyz/gocom
+module github.com/fozyz/goecom
 
 go 1.23.0
 
@@ -9,5 +9,5 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/lpernett/godotenv v0.0.0-20230527005122-0de1d4c5ef5e 
+	github.com/lpernett/godotenv v0.0.0-20230527005122-0de1d4c5ef5e
 )

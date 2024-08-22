@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/fozyz/gocom/cmd/api"
-	"github.com/fozyz/gocom/config"
-	"github.com/fozyz/gocom/db"
+	"github.com/fozyz/goecom/cmd/api"
+	"github.com/fozyz/goecom/config"
+	"github.com/fozyz/goecom/db"
 	"github.com/go-sql-driver/mysql"
 )
 
