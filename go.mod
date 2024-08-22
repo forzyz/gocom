@@ -1,4 +1,4 @@
-module github.com/fozyz/goecom
+module github.com/fozyz/gocom
 
 go 1.23.0
 

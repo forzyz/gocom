@@ -1,5 +1,5 @@
 build:
-	@go build -o bin/goecom cmd/main.go
+	@go build -o bin/gocom cmd/main.go
 
 test:
 	@go test -v ./...
