@@ -7,6 +7,7 @@ import (
 	"github.com/fozyz/gocom/service/auth"
 	"github.com/fozyz/gocom/types"
 	"github.com/fozyz/gocom/utils"
+	"github.com/go-playground/validator"
 	"github.com/gorilla/mux"
 )
 
@@ -31,8 +32,16 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 	// get json payload
 	var payload types.RegisterUserPayload
 
-	if err := utils.ParseJSON(r, payload); err != nil {
+	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// validate the payload
+	if err := utils.Validate.Struct(payload); err != nil {
+		errors := err.(validator.ValidationErrors) 
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
+		return
 	}
 
 	// check if user exists
@@ -43,8 +52,12 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// рash the user's password
 	hashedPassword, err := auth.HashPassword(payload.Password)
-	
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, fmt.Errorf("failed to hash password: %v", err))
+		return
+	}
 
 	// if not, create user
 	// if yes, return error
