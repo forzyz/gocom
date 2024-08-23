@@ -1,8 +1,0 @@
-code_navigation:
-  image: sourcegraph/lsif-go:v1
-  allow_failure: true # recommended
-  script:
-    - lsif-go
-  artifacts:
-    reports:
-      lsif: dump.lsif
