@@ -1,3 +1,17 @@
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  script:
+    - echo "Building the project..."
+
+test_job:
+  stage: test
+  script:
+    - echo "Running tests..."
+
 workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
