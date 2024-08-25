@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fozyz/gocom/service/user"
+	"github.com/fozyz/gocom/services/user"
 	"github.com/gorilla/mux"
 )
 
