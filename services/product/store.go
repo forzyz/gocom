@@ -2,6 +2,8 @@ package product
 
 import (
 	"database/sql"
+	"fmt"
+	"strings"
 
 	"github.com/fozyz/gocom/types"
 )
@@ -32,6 +34,33 @@ func (s *Store) GetProducts() ([]types.Product, error) {
 	for rows.Next() {
 		p, err := scanRowsIntoProduct(rows)
 		if err != nil {
+
+		}
+
+		products = append(products, *p)
+	}
+
+	return products, nil
+}
+
+func (s *Store) GetProductsByIDs(ids []int) ([]types.Product, error) {
+	placeholders := strings.Repeat(",?", len(ids)-1)
+	query := fmt.Sprintf("SELECT * FROM products WHERE id IN (%s)", placeholders)
+	// Convert productID's to []interface
+	args := make([]interface{}, len(ids))
+	for i, v := range ids {
+		args[i] = v
+	}
+
+	rows, err := s.db.Query(query, args...)
+	if err != nil {
+		return nil, err
+	}
+
+	products := []types.Product{}
+	for rows.Next() {
+		p, err := scanRowsIntoProduct(rows)
+		if err != nil {
 			return nil, err
 		}
 
@@ -39,6 +68,16 @@ func (s *Store) GetProducts() ([]types.Product, error) {
 	}
 
 	return products, nil
+
+}
+
+func (s *Store) UpdateProduct(product types.Product) error {
+	_, err := s.db.Exec("UPDATE products SET name = ?, price = ?, image = ?, description = ?, quantity = ? WHERE id = ?", product.Name, product.Price, product.Image, product.Description, product.Quantity, product.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func scanRowsIntoProduct(rows *sql.Rows) (*types.Product, error) {
