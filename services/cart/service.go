@@ -27,7 +27,7 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userId
 
 	// check if all products are actually in stock
 	if err := checkIfCartIsInStock(items, productMap); err != nil {
-		return 0, 0, nil
+		return 0, 0, err
 	}
 
 	// calculate the total price
@@ -48,22 +48,21 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userId
 		Address: "some address",
 	})
 	if err != nil {
-		return 0, 0, nil
+		return 0, 0, err
 	}
 
 	// create order items
 	for _, item := range items {
-		h.store.CreadeOrderItem(types.OrderItem{
-			OrderID: orderID,
+		h.store.CreateOrderItem(types.OrderItem{
+			OrderID:   orderID,
 			ProductID: item.ProductID,
-			Quantity: item.Quantity,
-			Price: productMap[item.ProductID].Price,
+			Quantity:  item.Quantity,
+			Price:     productMap[item.ProductID].Price,
 		})
 	}
 
 	return orderID, totalPrice, nil
 }
-
 func checkIfCartIsInStock(cartItems []types.CartItem, products map[int]types.Product) error {
 	if len(cartItems) == 0 {
 		return fmt.Errorf("cart is empty")

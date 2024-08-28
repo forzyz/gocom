@@ -15,8 +15,8 @@ type Config struct {
 	DBPassword            string
 	DBAddress             string
 	DBName                string
-	JWTxpirationInSeconds int64
 	JWTSecret             string
+	JWTExpirationInSeconds int64
 }
 
 var Envs = initConfig()
@@ -26,13 +26,13 @@ func initConfig() Config {
 
 	return Config{
 		PublicHost:            getEnv("PUBLIC_HOST", "http://localhost"),
-		Port:                  getEnv("PORT", "8080"),
+		Port:                  getEnv("PORT", "8888"),
 		DBUser:                getEnv("DB_USER", "root"),
-		DBPassword:            getEnv("DB_PASSWORD", "QQggrusl1324@"),
+		DBPassword:            getEnv("DB_PASSWORD", "QQggdoblik1324@"),
 		DBAddress:             fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "3306")),
 		DBName:                getEnv("DB_NAME", "gocom"),
-		JWTSecret:             getEnv("JWT_SECRET", "not-secret-secret-anymore?"),
-		JWTxpirationInSeconds: getEnvAsInt("JWT_EXP", 3600*24*7),
+		JWTSecret:             getEnv("JWT_SECRET", "not-so-secret-now-is-it?"),
+		JWTExpirationInSeconds: getEnvAsInt("JWT_EXP", 3600*24*7),
 	}
 }
 
